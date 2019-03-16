@@ -54,7 +54,8 @@ class RegisterVC: UIViewController, UITextFieldDelegate {
                 
             }
         }
-        
+      
+        //
     //パスワードが一致しているときに、チェックマークが赤色から緑色に変わる
         if passwordTxt.text == confirmPassTxt.text {
             
