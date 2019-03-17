@@ -24,6 +24,11 @@ class RegisterVC: UIViewController, UITextFieldDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        emailTxt.delegate = self
+        usernameTxt.delegate = self
+        passwordTxt.delegate = self
+        confirmPassTxt.delegate = self
+        
     //#selectorはobjective-Cの書き方で、＃selectorで関数名を指定している
     //パスワードが入力されたタイミングでイベントが呼び出されて、指定した関数により処理が行われる
     passwordTxt.addTarget(self, action: #selector(textFielDidChange(_:)), for: UIControl.Event.editingChanged)
@@ -83,25 +88,86 @@ class RegisterVC: UIViewController, UITextFieldDelegate {
         //メールアドレスとパスワードがnilではないことを確認できた後にIndicatorを表示する
         activityIndicator.startAnimating()
         
-        //firebaseのドキュメントに書かれてる通りにコピペするとエラーが出てしまうため、
-        //guard文をかませる
-        //インスタンスが１個しか生成されないことを保証したい
-        //この１行で、firebase上でemailとpasswordをもとに新しいユーザーを作成する
-        Auth.auth().createUser(withEmail: email, password: password) { (authResult, error) in
+        //匿名かどうかに関わらず、現在ログインしているユーザーの情報を取得してくる
+        //そのユーザーの情報を新しいプロバイダとリンクさせることができる
+        guard let authUser = Auth.auth().currentUser else {
+            
+            return
+        }
+        
+        //credentialは信用情報、資格、資質
+        let credential = EmailAuthProvider.credential(withEmail: email, password: password)
+        
+        //let facebookCredential = FacebookAuthProvider.credential(withAccessToken: String)
+        //linkWithCredential:completion: の呼び出しが成功したら、
+        //ユーザーの新しいアカウントが匿名アカウントの Firebase データにアクセスできるようになります。
+        authUser.linkAndRetrieveData(with: credential) { (resukt, error) in
             
             if let error = error {
                 debugPrint(error)
                 return
-                
             }
             
+            //インディケーターを止める
             self.activityIndicator.stopAnimating()
+            
             print("successFully registered new user.")
+            
+            //戻る
+            self.dismiss(animated: true, completion: nil)
             
             //guard let user = authResult?.user else { return }
         }
+    }
         
+        
+//        //firebaseのドキュメントに書かれてる通りにコピペするとエラーが出てしまうため、
+//        //guard文をかませる
+//        //インスタンスが１個しか生成されないことを保証したい
+//        //この１行で、firebase上でemailとpasswordをもとに新しいユーザーを作成する
+//        Auth.auth().createUser(withEmail: email, password: password) { (authResult, error) in
+//
+//            if let error = error {
+//                debugPrint(error)
+//                return
+//
+//            }
+//
+//            self.activityIndicator.stopAnimating()
+//
+//            print("successFully registered new user.")
+//
+//            self.dismiss(animated: true, completion: nil)
+//
+//            //guard let user = authResult?.user else { return }
+//        }
+//
+//    }
+    
+}
+
+//エクステンション
+extension RegisterVC {
+    
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        
+        emailTxt.resignFirstResponder()
+        usernameTxt.resignFirstResponder()
+        passwordTxt.resignFirstResponder()
+        confirmPassTxt.resignFirstResponder()
     }
     
-    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        
+        
+        emailTxt.resignFirstResponder()
+        usernameTxt.resignFirstResponder()
+        passwordTxt.resignFirstResponder()
+        confirmPassTxt.resignFirstResponder()
+        
+        return true
+        
+ }
+
 }
