@@ -83,7 +83,17 @@ class RegisterVC: UIViewController, UITextFieldDelegate {
         //この,はwhereを意味している
         guard let email = emailTxt.text, email.isNotEmpty ,
             let username = usernameTxt.text, username.isNotEmpty,
-            let password = passwordTxt.text, password.isNotEmpty else { return }
+            let password = passwordTxt.text, password.isNotEmpty else {
+                
+                simpleAlert(title: "Error", msg: "Please fill out all fields.")
+                return
+        }
+        //, confirmPass == password <- この部分はなおかつと捉えればいいのかな
+        guard let confirmPass = confirmPassTxt.text , confirmPass == password else {
+            
+            simpleAlert(title: "Error", msg: "Password do not match.")
+            return
+        }
         
         //メールアドレスとパスワードがnilではないことを確認できた後にIndicatorを表示する
         activityIndicator.startAnimating()
@@ -105,6 +115,7 @@ class RegisterVC: UIViewController, UITextFieldDelegate {
             
             if let error = error {
                 debugPrint(error)
+                Auth.auth().handleFireAuthError(error: error, vc: self)
                 return
             }
             

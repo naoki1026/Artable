@@ -24,17 +24,26 @@ class LoginVC: UIViewController {
         passwordTxt.delegate = self
         
     }
-    
-    
+  
     @IBAction func forgotPassClicked(_ sender: Any) {
         
+        //ここでのvcはForgotPasswordVCのことを指す
+        let vc = ForgotPasswordVC()
+        
+        //どのように画面に遷移するか
+        vc.modalTransitionStyle = .crossDissolve
+        vc.modalPresentationStyle = .overCurrentContext
+        present(vc, animated: true, completion: nil)
+        
     }
-    
-    
+  
     @IBAction func loginClicked(_ sender: Any) {
         
     guard let email = emailTxt.text, email.isNotEmpty ,
-    let password = passwordTxt.text, password.isNotEmpty else { return }
+    let password = passwordTxt.text, password.isNotEmpty else {
+       simpleAlert(title: "Error", msg: "Fill out all fields.")
+      
+        return }
     
     activityIndicator.startAnimating()
         
@@ -44,8 +53,8 @@ class LoginVC: UIViewController {
         if let error = error {
             
             
-            debugPrint(error.localizedDescription)
-            self.handleFireAuthError(error: error)
+            debugPrint(error)
+            Auth.auth().handleFireAuthError(error: error, vc:self)
             self.activityIndicator.stopAnimating()
             return
         }
@@ -84,8 +93,4 @@ extension LoginVC : UITextFieldDelegate {
         return true
         
     }
-
-    
-    
-    
 }

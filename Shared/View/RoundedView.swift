@@ -18,7 +18,7 @@ class RoundedButton : UIButton {
     
 }
 
-
+//Xibにこのクラスの内容を反映させることによって、その都度定義し直す必要がなくなる
 class RoundedShadowView : UIView {
     
     override func awakeFromNib() {

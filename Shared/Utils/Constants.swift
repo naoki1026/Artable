@@ -40,5 +40,16 @@ struct AppColors {
     static let Red = #colorLiteral(red: 0.8352941176, green: 0.3921568627, blue: 0.3137254902, alpha: 1)
     static let White = #colorLiteral(red: 0.921431005, green: 0.9214526415, blue: 0.9214410186, alpha: 1)
     
+}
 
+struct Identifiers {
+    
+    static let CategoryCell = "CategoryCell"
+    static let ProductCell = "ProductCell"
+
+}
+
+struct Segues {
+    
+    static let ToProducts = "toProductsVC"
 }

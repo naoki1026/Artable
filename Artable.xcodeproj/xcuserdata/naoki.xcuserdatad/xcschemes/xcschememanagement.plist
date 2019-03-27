@@ -6,13 +6,30 @@
 	<dict>
 		<key>AdminArtable.xcscheme_^#shared#^_</key>
 		<dict>
+			<key>isShown</key>
+			<true/>
 			<key>orderHint</key>
 			<integer>0</integer>
 		</dict>
 		<key>Artable.xcscheme_^#shared#^_</key>
 		<dict>
+			<key>isShown</key>
+			<true/>
 			<key>orderHint</key>
 			<integer>1</integer>
+		</dict>
+	</dict>
+	<key>SuppressBuildableAutocreation</key>
+	<dict>
+		<key>B0103FD9223B6E0900B763FD</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>B0103FF2223B6E1B00B763FD</key>
+		<dict>
+			<key>primary</key>
+			<true/>
 		</dict>
 	</dict>
 </dict>
